@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🎬 Movie Search</title>
+  <style>
+    body { font-family: Arial; background:#111; color:#fff; text-align:center; }
+    input { padding:10px; width:60%; }
+    button { padding:10px; }
+    .movie { display:inline-block; margin:10px; }
+    img { width:150px; border-radius:10px; }
+  </style>
+</head>
+<body>
+
+<h1>🎬 Movie Search App</h1>
+
+<input type="text" id="search" placeholder="Enter movie name...">
+<button onclick="searchMovie()">Search</button>
+
+<div id="results"></div>
+
+<script>
+async function searchMovie(){
+  const name = document.getElementById("search").value;
+  const res = await fetch(`/search/${name}`);
+  const data = await res.json();
+
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+
+  data.Movies.forEach(m=>{
+    results.innerHTML += `
+      <div class="movie">
+        <img src="${m.poster}">
+        <p>${m.title}</p>
+        <a href="${m.watch}" target="_blank">▶ Watch</a>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
